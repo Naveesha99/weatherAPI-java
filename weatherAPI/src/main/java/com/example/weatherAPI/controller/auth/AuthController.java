@@ -1,5 +1,7 @@
 package com.example.weatherAPI.controller.auth;
 
+import com.example.weatherAPI.dto.auth.LoginRequest;
+import com.example.weatherAPI.dto.auth.LoginResponse;
 import com.example.weatherAPI.dto.auth.SignupRequest;
 import com.example.weatherAPI.entity.User;
 import com.example.weatherAPI.entity.VerificationToken;
@@ -43,5 +45,12 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok("Email verified successfully");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(
+            @Valid @RequestBody LoginRequest request
+            ) {
+        return ResponseEntity.ok(authService.login(request));
     }
 }

@@ -8,11 +8,37 @@ Content-Type: application/json
   "password": "password123"
 }
 
-### Login as a user
+### Verify email (copy token from email)
+GET http://localhost:8080/api/auth/verify?token={{verificationToken}}
+
+### Login as a verified user
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "testuser",
   "email": "test@example.com",
+  "password": "password123"
+}
+
+### Use the returned JWT for authenticated requests
+### Replace {{token}} with the `token` from the login response
+### Example: list locations for current user
+GET http://localhost:8080/api/locations
+Authorization: Bearer {{token}}
+
+### Who am I? (useful for debugging auth)
+GET http://localhost:8080/api/users/me
+Authorization: Bearer {{token}}
+
+### Add a location (requires Bearer token)
+POST http://localhost:8080/api/locations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Home",
+  "city": "Colombo",
+  "latitude": 6.9271,
+  "longitude": 79.8612,
+  "default": true
 }

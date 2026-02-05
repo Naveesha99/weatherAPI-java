@@ -3,6 +3,9 @@ package com.example.weatherAPI.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -25,4 +28,13 @@ public class User {
     private String password;
 
     private boolean enabled = false; // for email verification
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @Builder.Default
+    private List<Location> locations = new ArrayList<>();
 }
